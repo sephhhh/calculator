@@ -42,20 +42,16 @@ function display(num) {
             newNum.textContent = num;
             body.appendChild(newNum);
             h2Exists = true;
-        } else if (clickedEq === true){
-            newNum = document.createElement('h2');
-            newNum.textContent = num;
-            body.appendChild(newNum);
-            clickedEq = false;
-        }
+        } 
     }
 }
 
-let num, num1, num2, op, userNum, userOp, sum, newNum;
+let num, num1, num2, op, userNum, userOp, sum, newNum, h2;
 let isClicked = false;
 let isClear = false;
 let h2Exists = false;
 let clickedEq = false;
+let clearClicked = false;
 let tempArr = [];
 
 
@@ -66,7 +62,7 @@ let numBtn = numContainer.querySelectorAll('button');
 numBtn.forEach(event => {
     event.addEventListener('click', e => {
         if (isClear === true) {
-            let h2 = document.querySelectorAll("h2");
+            h2 = document.querySelectorAll("h2");
             h2.forEach( e => {{
                 e.remove();
             }});
@@ -94,6 +90,10 @@ op.forEach(event => {
             if (sum != undefined) {
                 num1 = sum;
                 tempArr.length = 0;
+            } else {
+                num1 = userNum;
+                tempArr.length = 0;
+                isClicked = true;
             }
         }
         if (isClear === false) {
@@ -117,8 +117,20 @@ equal.addEventListener('click', () => {
         clickedEq = true;
     }
     display(sum);
-
 });
 
 let ac = document.querySelector('#clear');
+ac.addEventListener('click', () => {
+    h2 = document.querySelectorAll("h2");
+    h2.forEach( e => {{
+        e.remove();
+        }
+    });
+    tempArr.length = 0;
+    sum = undefined;
+    num1 = undefined;
+    num2 = undefined;
+    h2Exists = false;
+    clearClicked = true;
+});
 
