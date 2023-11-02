@@ -28,16 +28,20 @@ function operate(num1, num2, op) {
 
 function display(num) {
     const body = document.querySelector('body');
+    console.log('<--------------------->')
     if (clickedEq === true) {
+        console.log('first display runs')
         newNum = document.createElement('h2');
         newNum.textContent = num;
         body.appendChild(newNum);
         clickedEq = false;
     } else {
         if (h2Exists === true) {
+            console.log('second display runs')
             const existingNum = newNum.textContent;
             newNum.textContent = existingNum + num;
         } else if (h2Exists === false){
+            console.log('third display runs')
             newNum = document.createElement('h2');
             newNum.textContent = num;
             body.appendChild(newNum);
@@ -46,7 +50,7 @@ function display(num) {
     }
 }
 
-let num, num1, num2, op, userNum, userOp, sum, newNum, h2;
+let num, num1, num2, op, userNum, userOp, sum, newNum, h2, prevOp;
 let isClicked = false;
 let isClear = false;
 let h2Exists = false;
@@ -74,26 +78,45 @@ numBtn.forEach(event => {
         userNum = parseInt(tempArr.join(''));
         if (num2 != undefined) {
             num2 = userNum;
+            num1 = sum;
         }
+        prevOp = userOp;
     });
 });
 
 op = opContainer.querySelectorAll('button');
 op.forEach(event => {
     event.addEventListener('click', e => {
+        console.log('<--------------------->')
         userOp = e.target.textContent;
         if (isClicked === false) {
+            console.log('first op runs')
             num1 = userNum;
             tempArr.length = 0;
             isClicked = true;
         } else {
-            if (sum != undefined) {
-                num1 = sum;
-                tempArr.length = 0;
+            if (num1 != undefined) {
+                h2 = document.querySelectorAll("h2");
+                h2.forEach( e => {{
+                    e.remove();
+                }});
+                console.log('second op runs')
+                if (num2 === undefined) {
+                    num2 = userNum;
+                    tempArr.length = 0;
+                } else {
+                    tempArr.length = 0;
+                }
+                if (userOp != undefined) {
+                    sum = operate(num1, num2, prevOp);
+                }
+                h2Exists = false;
+                display(sum);
             } else {
                 num1 = userNum;
                 tempArr.length = 0;
                 isClicked = true;
+                console.log('third op runs')
             }
         }
         if (isClear === false) {
