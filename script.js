@@ -57,6 +57,7 @@ let isClear = false;
 let h2Exists = false;
 let clickedEq = false;
 let clearClicked = false;
+let error = false;
 let tempArr = [];
 
 
@@ -66,6 +67,18 @@ let numBtn = numContainer.querySelectorAll('button');
 
 numBtn.forEach(event => {
     event.addEventListener('click', e => {
+        if (error === true) {
+            h2 = document.querySelectorAll("h2");
+            h2.forEach( e => {{
+                e.remove();
+            }});
+            tempArr.length = 0;
+            sum = undefined;
+            num1 = undefined;
+            num2 = undefined;
+            h2Exists = false;
+            error = false;
+        }
         if (isClear === true) {
             h2 = document.querySelectorAll("h2");
             h2.forEach( e => {{
@@ -109,7 +122,8 @@ op.forEach(event => {
                     if (prevOp === '/' && num2 === 0) {
                         h2 = document.querySelectorAll("h2");
                         h2.forEach( e => e.remove() );
-                        display("ERROR")
+                        display("ERROR");
+                        error = true;
                     } else {
                         sum = operate(num1, num2, prevOp);
                         h2 = document.querySelectorAll("h2");
@@ -121,7 +135,9 @@ op.forEach(event => {
                     if (prevOp === '/' && num2 === 0) {
                         h2 = document.querySelectorAll("h2");
                         h2.forEach( e => e.remove() );
-                        display("ERROR")
+                        display("ERROR");
+                        error = true;
+                        
                     } else {
                         sum = operate(num1, num2, prevOp);
                         h2 = document.querySelectorAll("h2");
@@ -157,7 +173,8 @@ equal.addEventListener('click', () => {
         if (userOp === '/' && num2 === 0) {
             let h2 = document.querySelectorAll("h2");
             h2.forEach( e => e.remove() );
-                display("ERROR")
+                display("ERROR");
+                error = true
         }
     }
     if (!(userOp === '/' && num2 === 0)) {
